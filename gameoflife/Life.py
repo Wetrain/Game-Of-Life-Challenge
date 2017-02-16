@@ -1,18 +1,14 @@
 import time, sys
 
-import os
-
-
 class Life(object):
     """A class that implements a basic Game of Life algorithm"""
-    def __init__(self, state=None, size=3):
+    def __init__(self, state=None, size=None):
         self.SIZE = size
 
-        if state:
+        if len(state) == size:
             self.board = state
         else:
-            print('No init state, creating empty {0}x{1} board'.format(self.SIZE, self.SIZE))
-            self.board = [[0 for r in range(self.SIZE)] for c in range(self.SIZE)]
+            raise Exception('The size of the intial state {0} does not match the specified size {1}'.format(len(state), size))
 
     def get_alive_neighbours(self, pos):
         """A method to calculate the number of living neighbours for a given cell"""
@@ -31,7 +27,7 @@ class Life(object):
         return count
     
     def evolve_cell(self, cell, neighbours):
-        """A method used to check if a cell should die or live"""
+        """A method used to check if a cell should live or die"""
         if cell and neighbours < 2:
             return 0
         elif cell and neighbours == 2 or neighbours == 3:
@@ -44,7 +40,7 @@ class Life(object):
             return cell
 
     def evolve(self, steps):
-        """An iterator method, to return each state of the simulation"""
+        """An iterator method, to return each state of a simulation"""
         for _ in range(steps):
             new_state = [[0 for r in range(self.SIZE)] for c in range(self.SIZE)] 
 
@@ -57,6 +53,7 @@ class Life(object):
             yield new_state
     
     def visual_evolve(self, steps):
+        """A method used to visually display each simulation step"""
         states = self.evolve(steps)
         for num, state in enumerate(states):
             print('Evolution {0}'.format(num + 1)) 

@@ -1,6 +1,10 @@
+import time, sys
+
+import os
+
+
 class Life(object):
     """A class that implements a basic Game of Life algorithm"""
-
     def __init__(self, state=None, size=3):
         self.SIZE = size
 
@@ -21,11 +25,9 @@ class Life(object):
             #ensure we don't hit pythons negative indexing
             if r >= 0 and c >= 0:
                 try:
-                    if self.board[r][c]:
-                        count += 1
-                except IndexError as e:
+                    count += self.board[r][c]
+                except IndexError:
                     pass
-
         return count
     
     def evolve_cell(self, cell, neighbours):
@@ -39,7 +41,6 @@ class Life(object):
         elif not cell and neighbours == 3:
             return 1
         else:
-            print('Unknown evolution')
             return cell
 
     def evolve(self, steps):
@@ -51,5 +52,14 @@ class Life(object):
                 for c in range(len(self.board[0])):
                     neighbours = self.get_alive_neighbours( (r, c) )
                     new_state[r][c] = self.evolve_cell(self.board[r][c], neighbours)
+
             self.board = new_state
             yield new_state
+    
+    def visual_evolve(self, steps):
+        states = self.evolve(steps)
+        for num, state in enumerate(states):
+            print('Evolution {0}'.format(num + 1)) 
+            for i in range(len(state[0])):
+                print(state[i])
+            time.sleep(1)

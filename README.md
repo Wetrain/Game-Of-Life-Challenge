@@ -14,11 +14,11 @@ In a command line, navigate to this directory and just run `nosetests -v`
 
 From the supplied specification, I assumed a TDD approach.
 
-From the intial test case, I decided to use a 3x3 board size approach.
+Making an assumption from the provided test case, I decided to use a 3x3 board size approach.
 
-STATE = [[0,0,0],
-         [0,0,0],
-         [0,0,0]]
+    STATE = [[0,0,0],
+             [0,0,0],
+             [0,0,0]]
 
 I then implemented the logic using the 4 universal Game of Life rules:
 
@@ -26,7 +26,24 @@ I then implemented the logic using the 4 universal Game of Life rules:
     2) Any live cell with two or three live neighbours lives on to the next generation.
     3) Any live cell with more than three live neighbours dies, as if by overpopulation.
     4) Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+    
+I then added test cases for all further scenarios provided.
 
-I then modified the code to make use of the Class based aporoached, initialising the class with the STATE and SIZE of the board.
+I then modified the code to make use of the Class based approach, initialising each Life instance with the STATE and SIZE of the board.
 
 STATE must be the same size as the SIZE paramter or the simulation will not run.
+
+## How to run Game Of Life ##
+
+Using IPython:
+
+    from Life import Life
+    
+    SIZE = 3
+    
+    state = [[0 for r in range(SIZE)] for c in range(SIZE)]
+    
+    life = Life(state=state, size=SIZE)
+    
+    life.visual_evolve(2) #pass in the number of steps
+    
